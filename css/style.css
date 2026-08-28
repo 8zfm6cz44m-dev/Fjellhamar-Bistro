@@ -1,6 +1,6 @@
 /* ============================================================
    Fjellhamar Bistro — hovedstilark
-   Mørkt, varmt "gull på svart" tema for en kinesisk/asiatisk
+   Lyst, varmt "terrakotta på cream" tema for en kinesisk/asiatisk
    nabolagsbistro. Bygget mobil-først, ingen rammeverk.
    ============================================================ */
 
@@ -318,9 +318,10 @@ body {
 }
 .submit-btn:hover:not(:disabled) { background: var(--gold-l); transform: translateY(-1px); }
 .submit-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.form-status { font-size: 12.5px; margin-top: 14px; min-height: 1.4em; }
+.form-status { font-size: 12.5px; margin-top: 14px; min-height: 1.4em; line-height: 1.6; }
 .form-status.is-ok { color: var(--ok); }
 .form-status.is-error { color: var(--err); }
+.status-call-link { color: var(--err); font-weight: 700; text-decoration: underline; white-space: nowrap; }
 
 /* ── ÅPNINGSTIDER ── */
 .hours-table { width: 100%; border-collapse: collapse; margin-top: 4px; }

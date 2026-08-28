@@ -39,16 +39,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const statusEl = document.getElementById('bf-status');
   const submitBtn = document.getElementById('bf-submit');
 
+  // Vanlig statusmelding (ren tekst).
   const setStatus = (text, type) => {
-    statusEl.textContent = text;
+    statusEl.innerHTML = '';
     statusEl.classList.remove('is-ok', 'is-error');
+    statusEl.appendChild(document.createTextNode(text));
     if (type) statusEl.classList.add(type);
   };
 
+  // Feilmelding med en klikkbar "ring oss"-lenke, slik at bestillingen
+  // ALLTID kan fullføres på en annen måte selv om selve nettinnsendingen
+  // blokkeres av f.eks. en annonseblokkering/personvern-utvidelse i
+  // nettleseren (dette kan ikke løses fra sidens egen kode — nettleseren
+  // nekter da å sende forespørselen i utgangspunktet).
+  const setBlockedStatus = () => {
+    statusEl.innerHTML = '';
+    statusEl.classList.remove('is-ok');
+    statusEl.classList.add('is-error');
+    statusEl.appendChild(document.createTextNode(
+      'Bestillingen kom ikke frem — dette skyldes ofte en annonseblokkering eller personvern-utvidelse i nettleseren. Prøv gjerne i et privat vindu, eller '
+    ));
+    const callLink = document.createElement('a');
+    callLink.href = 'tel:67902209';
+    callLink.className = 'status-call-link';
+    callLink.textContent = 'ring oss på 67 90 22 09';
+    statusEl.appendChild(callLink);
+    statusEl.appendChild(document.createTextNode(' så ordner vi bordet med en gang.'));
+  };
+
   if (!window.supabaseClient) {
-    setStatus('Nettbestilling er ikke aktivert ennå — ring oss gjerne i mellomtiden.', 'is-error');
+    setBlockedStatus();
     submitBtn.disabled = true;
     return;
+  }
+
+  // Ett forsøk på å sende bestillingen. Returnerer null ved suksess,
+  // ellers feilobjektet (fanger både Supabase-feil OG kastede unntak,
+  // f.eks. en fetch som avbrytes av en nettleserutvidelse).
+  async function trySubmit(payload) {
+    try {
+      const { error } = await window.supabaseClient.from('restaurant_bookings').insert(payload);
+      return error || null;
+    } catch (err) {
+      return err;
+    }
   }
 
   form.addEventListener('submit', async (e) => {
@@ -73,11 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const { error } = await window.supabaseClient.from('restaurant_bookings').insert(payload);
+    let error = await trySubmit(payload);
+
+    // Stille automatisk nytt forsøk ved første feil — fanger opp korte,
+    // forbigående nettverksglipp uten å plage brukeren med det.
+    if (error) {
+      await new Promise(r => setTimeout(r, 700));
+      error = await trySubmit(payload);
+    }
 
     if (error) {
       console.error(error);
-      setStatus('Noe gikk galt. Prøv igjen, eller ring oss på 67 90 22 09.', 'is-error');
+      setBlockedStatus();
       submitBtn.disabled = false;
       return;
     }
