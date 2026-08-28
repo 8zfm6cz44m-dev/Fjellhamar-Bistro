@@ -30,29 +30,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (row) row.classList.add('is-today');
   });
 
+  // --- Delt hjelpefunksjon: hent åpningstider for en gitt ukedag fra en
+  // "hours-table" (brukes både av "Åpent nå"-status og leverings-graying).
+  const toMinutes = t => {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  };
+  const getHoursFromTable = (tableId, d) => {
+    const row = document.querySelector(`#${tableId} tr[data-day="${d}"]`);
+    if (!row) return null;
+    const text = row.children[1].textContent.trim();
+    if (text.toLowerCase() === 'stengt') return null;
+    const [start, end] = text.split('–').map(s => s.trim());
+    return { start, end };
+  };
+
   // --- "Åpent nå" / "Stengt nå"-status i hero ---
   const statusEl = document.getElementById('open-status');
+  let todayHoursMain = null;
   if (statusEl) {
     const tableId = statusEl.dataset.hoursTable || 'hours-main';
-    const toMinutes = t => {
-      const [h, m] = t.split(':').map(Number);
-      return h * 60 + m;
-    };
-    const getRow = d => document.querySelector(`#${tableId} tr[data-day="${d}"]`);
-    const getHours = d => {
-      const row = getRow(d);
-      if (!row) return null;
-      const text = row.children[1].textContent.trim();
-      if (text.toLowerCase() === 'stengt') return null;
-      const [start, end] = text.split('–').map(s => s.trim());
-      return { start, end };
-    };
-
-    const todayHours = getHours(dayIndex);
+    todayHoursMain = getHoursFromTable(tableId, dayIndex);
     const nowMinutes = nowOslo.getHours() * 60 + nowOslo.getMinutes();
-    const isOpenNow = todayHours
-      && nowMinutes >= toMinutes(todayHours.start)
-      && nowMinutes < toMinutes(todayHours.end);
+    const isOpenNow = todayHoursMain
+      && nowMinutes >= toMinutes(todayHoursMain.start)
+      && nowMinutes < toMinutes(todayHoursMain.end);
 
     statusEl.classList.add(isOpenNow ? 'is-open' : 'is-closed');
     const dot = document.createElement('span');
@@ -60,15 +62,31 @@ document.addEventListener('DOMContentLoaded', () => {
     statusEl.appendChild(dot);
     const text = document.createElement('span');
     if (isOpenNow) {
-      text.textContent = `Åpent nå · stenger ${todayHours.end}`;
-    } else if (todayHours) {
-      text.textContent = nowMinutes < toMinutes(todayHours.start)
-        ? `Stengt nå · åpner ${todayHours.start} i dag`
+      text.textContent = `Åpent nå · stenger ${todayHoursMain.end}`;
+    } else if (todayHoursMain) {
+      text.textContent = nowMinutes < toMinutes(todayHoursMain.start)
+        ? `Stengt nå · åpner ${todayHoursMain.start} i dag`
         : 'Stengt nå · åpner i morgen';
     } else {
       text.textContent = 'Stengt nå';
     }
     statusEl.appendChild(text);
+  }
+
+  // --- Grå ut Wolt/Foodora på dager vi har heltstengt (f.eks. mandag) ---
+  const deliveryGrid = document.getElementById('delivery-grid');
+  if (deliveryGrid) {
+    const tableId = deliveryGrid.dataset.hoursTable || 'hours-main';
+    const isClosedToday = getHoursFromTable(tableId, dayIndex) === null;
+    if (isClosedToday) {
+      deliveryGrid.querySelectorAll('.delivery-card').forEach(card => {
+        card.classList.add('is-closed');
+        card.setAttribute('aria-disabled', 'true');
+        card.addEventListener('click', e => e.preventDefault());
+      });
+      const note = document.getElementById('delivery-closed-note');
+      if (note) note.hidden = false;
+    }
   }
 
   // --- Menyflikar ---

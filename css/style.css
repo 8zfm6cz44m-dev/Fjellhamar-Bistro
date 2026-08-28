@@ -199,6 +199,10 @@ body {
 .delivery-desc { font-size: 12.5px; color: var(--muted); }
 .delivery-arrow { margin-left: auto; color: var(--gold-d); font-size: 15px; transition: transform 0.18s, color 0.18s; }
 .delivery-card:hover .delivery-arrow { transform: translateX(3px); color: var(--gold); }
+.delivery-card.is-closed { opacity: 0.5; pointer-events: none; filter: grayscale(0.4); }
+.delivery-card.is-closed:hover { transform: none; border-color: var(--border); background: var(--card); }
+.delivery-closed-note { margin-top: 16px; font-size: 12.5px; color: var(--muted); }
+.hours-table tr.is-closed-day td:last-child { color: var(--muted); font-style: italic; }
 
 /* ── SECTIONS ── */
 .section { padding: 88px 48px; }
@@ -304,6 +308,7 @@ body {
 .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
 .fg select option { background: var(--bg2); }
 .fg textarea { resize: vertical; min-height: 76px; }
+.fg-hint { font-size: 11px; color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
 .submit-btn {
   width: 100%; background: var(--gold); color: var(--white);
   border: none; padding: 15px; font-size: 13px; font-weight: 700;

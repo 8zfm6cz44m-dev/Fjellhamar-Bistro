@@ -31,7 +31,7 @@
   "url": "https://8zfm6cz44m-dev.github.io/Fjellhamar-Bistro/",
   "sameAs": ["https://www.facebook.com/p/Fjellhamar-Bistro-100064511372342/"],
   "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "14:00", "closes": "23:30" }
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "14:00", "closes": "23:30" }
   ],
   "menu": "https://8zfm6cz44m-dev.github.io/Fjellhamar-Bistro/#meny",
   "acceptsReservations": "True"
@@ -79,7 +79,7 @@
         <span class="info-icon">🕑</span>
         <div>
           <div class="info-lbl">Åpningstider</div>
-          <div class="info-val">Daglig 14:00–23:30</div>
+          <div class="info-val">Tir–søn 14:00–23:30<br><small>Stengt på mandager</small></div>
         </div>
       </div>
       <div class="info-row">
@@ -124,7 +124,7 @@
     <div class="sec-tag">Hjemlevering</div>
     <div class="sec-line"><div class="sec-h2">Bestill maten hjem</div></div>
     <p class="sec-intro">Vi jobber med å komme på plass hos leveringstjenestene under — trykk deg gjerne innom for å se om vi er tilgjengelige i ditt nabolag ennå, eller bestill bord/takeaway direkte hos oss på telefon.</p>
-    <div class="delivery-grid">
+    <div class="delivery-grid" id="delivery-grid" data-hours-table="hours-main">
       <a href="https://wolt.com/nb/nor/lillestrom" target="_blank" rel="noopener" class="delivery-card">
         <div class="delivery-badge wolt">W</div>
         <div>
@@ -142,6 +142,7 @@
         <span class="delivery-arrow">→</span>
       </a>
     </div>
+    <p class="delivery-closed-note" id="delivery-closed-note" hidden>Vi har stengt i dag (mandag) — levering via Wolt/Foodora er derfor ikke tilgjengelig nå.</p>
   </div>
 </section>
 
@@ -261,7 +262,7 @@
     <div class="sec-line"><div class="sec-h2">Når vi har åpent</div></div>
     <div style="max-width:420px">
       <table class="hours-table" id="hours-main">
-        <tr data-day="1"><td>Mandag</td><td>14:00–23:30</td></tr>
+        <tr data-day="1" class="is-closed-day"><td>Mandag</td><td>Stengt</td></tr>
         <tr data-day="2"><td>Tirsdag</td><td>14:00–23:30</td></tr>
         <tr data-day="3"><td>Onsdag</td><td>14:00–23:30</td></tr>
         <tr data-day="4"><td>Torsdag</td><td>14:00–23:30</td></tr>
@@ -282,7 +283,7 @@
       <div>
         <p class="booking-info-txt">Fyll inn skjemaet — vi tar kontakt på telefon for å bekrefte bordet. Foretrekker du å ringe? Det går like bra på 67 90 22 09.</p>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Adresse</div><div class="b-val">Fjellhamarveien 56 D, 1472 Fjellhamar</div></div></div>
-        <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Åpningstider</div><div class="b-val">Daglig 14:00–23:30<br><span style="font-size:12px;color:var(--muted)">Følg oss på Facebook for avvik</span></div></div></div>
+        <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Åpningstider</div><div class="b-val">Tir–søn 14:00–23:30 · stengt mandager<br><span style="font-size:12px;color:var(--muted)">Følg oss på Facebook for avvik</span></div></div></div>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Telefon</div><div class="b-val"><a href="tel:6790220">67 90 22 09</a></div></div></div>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Selskaper</div><div class="b-val"><a href="tel:90171076" style="color:var(--gold)">90 17 10 76</a></div></div></div>
         <div style="margin-top:24px">
@@ -293,7 +294,7 @@
         <h3>Reserver bord</h3>
         <form id="booking-form" novalidate>
           <div class="frow">
-            <div class="fg"><label for="bf-date">Dato</label><input type="text" id="bf-date" name="booking_date" placeholder="Velg dato" autocomplete="off" required></div>
+            <div class="fg"><label for="bf-date">Dato</label><input type="text" id="bf-date" name="booking_date" placeholder="Velg dato" autocomplete="off" required><small class="fg-hint">Stengt på mandager — kan ikke velges</small></div>
             <div class="fg"><label for="bf-time">Tidspunkt</label>
               <select id="bf-time" name="booking_time" required>
                 <option value="">Velg tid</option>
@@ -331,7 +332,7 @@
     <div class="footer-grid">
       <div>
         <div class="footer-logo">Fjellhamar Bistro</div>
-        <div class="footer-tagline">Hyggelig nabolagsrestaurant med kinesisk og asiatisk mat, selskaper og takeaway. Daglig åpent 14:00–23:30.</div>
+        <div class="footer-tagline">Hyggelig nabolagsrestaurant med kinesisk og asiatisk mat, selskaper og takeaway. Åpent tir–søn 14:00–23:30, stengt mandager.</div>
         <a href="https://www.facebook.com/p/Fjellhamar-Bistro-100064511372342/" target="_blank" rel="noopener" class="footer-fb">Følg oss på Facebook →</a>
       </div>
       <div class="footer-col">

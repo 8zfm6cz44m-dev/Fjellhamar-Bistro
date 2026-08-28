@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
       altFormat: 'd.m.Y',
       minDate: 'today',
       disableMobile: true,
+      // Vi har stengt på mandager — kan ikke velges som bestillingsdato.
+      disable: [date => date.getDay() === 1],
     });
   }
   initDatePicker(10);
