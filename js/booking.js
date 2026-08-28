@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     form.reset();
-    setStatus('Takk! Vi bekrefter bordet ditt på telefon eller SMS.', 'is-ok');
+    setStatus('Takk! Vi tar kontakt på telefon for å bekrefte bordet.', 'is-ok');
     submitBtn.disabled = false;
   });
 });
