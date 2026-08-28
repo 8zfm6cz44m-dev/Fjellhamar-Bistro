@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Admin – Fjellhamar Bistro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+</head>
+<body class="admin-body">
+
+<header class="admin-header">
+  <div class="admin-header-inner">
+    <span class="admin-logo">Fjellhamar Bistro</span>
+    <span class="admin-title">Admin</span>
+    <button id="logout-btn" class="btn btn-outline btn-small" hidden>Logg ut</button>
+  </div>
+</header>
+
+<main class="admin-main">
+
+  <!-- ===== LOGIN ===== -->
+  <section id="login-view" class="admin-card">
+    <h1>Logg inn</h1>
+    <p class="muted small">Kun for ansatte hos Fjellhamar Bistro.</p>
+    <form id="login-form" style="margin-top:20px" novalidate>
+      <div class="form-row">
+        <label for="login-email">E-post</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="form-row">
+        <label for="login-password">Passord</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-accent">Logg inn</button>
+      <p class="form-status" id="login-status" role="status" aria-live="polite"></p>
+    </form>
+    <p class="fine-print" id="config-warning" hidden>
+      Supabase er ikke konfigurert ennå (js/supabase-config.js). Admin-siden fungerer først når prosjektet er koblet til.
+    </p>
+  </section>
+
+  <!-- ===== ADMIN (etter innlogging) ===== -->
+  <section id="admin-view" class="admin-card" hidden>
+
+    <div class="admin-panel-head">
+      <h2>Bordbestillinger</h2>
+      <div class="admin-panel-actions">
+        <label class="bookings-filter">
+          <input type="checkbox" id="show-archived">
+          Vis arkiv (fullførte/avviste)
+        </label>
+        <button id="refresh-bookings" class="btn btn-outline btn-small">Oppdater</button>
+      </div>
+    </div>
+    <p class="muted small" id="bookings-empty" hidden>Ingen bestillinger ennå.</p>
+    <p class="muted small" id="bookings-archived-note" hidden></p>
+    <div class="admin-table-wrap">
+      <table class="admin-table" id="bookings-table">
+        <thead>
+          <tr>
+            <th>Mottatt</th>
+            <th>Navn</th>
+            <th>Telefon</th>
+            <th>E-post</th>
+            <th>Gjester</th>
+            <th>Dato</th>
+            <th>Tid</th>
+            <th>Kommentar</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="bookings-tbody"></tbody>
+      </table>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="js/supabase-config.js" defer></script>
+<script src="js/admin.js" defer></script>
+</body>
+</html>

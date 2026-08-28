@@ -3,332 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Fjellhamar Bistro — hyggelig nabolagsrestaurant med god asiatisk mat. Fjellhamarveien 56 D. Ring 67 90 22 09.">
-<title>Fjellhamar Bistro</title>
+<meta name="description" content="Fjellhamar Bistro — hyggelig nabolagsrestaurant med kinesisk og asiatisk mat i Fjellhamar. Bestill bord, se meny, eller få maten levert via Wolt/Foodora. Fjellhamarveien 56 D. Ring 67 90 22 09.">
+<title>Fjellhamar Bistro — Kinesisk & asiatisk mat i Fjellhamar</title>
+<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:      #1A1108;
-  --bg2:     #221608;
-  --bg3:     #2C1E0A;
-  --card:    #261A09;
-  --gold:    #C9A84C;
-  --gold-l:  #F0DFA0;
-  --gold-d:  #8A6E28;
-  --cream:   #F2EAD8;
-  --muted:   #9A8870;
-  --border:  rgba(201,168,76,0.18);
-  --border2: rgba(201,168,76,0.08);
-  --white:   #FAF6EE;
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr" defer></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/no.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Fjellhamar Bistro",
+  "servesCuisine": ["Chinese", "Asian"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Fjellhamarveien 56 D",
+    "postalCode": "1472",
+    "addressLocality": "Fjellhamar",
+    "addressCountry": "NO"
+  },
+  "telephone": "+4767902209",
+  "url": "https://8zfm6cz44m-dev.github.io/Fjellhamar-Bistro/",
+  "sameAs": ["https://www.facebook.com/p/Fjellhamar-Bistro-100064511372342/"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "14:00", "closes": "23:30" }
+  ],
+  "menu": "https://8zfm6cz44m-dev.github.io/Fjellhamar-Bistro/#meny",
+  "acceptsReservations": "True"
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cream); line-height: 1.6; }
-
-/* ── NAV ── */
-.site-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border2);
-  padding: 0 48px;
-  display: flex; justify-content: space-between; align-items: center;
-  height: 64px;
-}
-.site-logo {
-  font-family: 'Lora', serif; font-size: 19px;
-  color: var(--gold-l); text-decoration: none; font-style: italic;
-  letter-spacing: 0.02em;
-}
-.nav-links { display: flex; gap: 32px; align-items: center; }
-.nav-links a {
-  font-size: 13px; color: var(--muted); text-decoration: none;
-  letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px;
-  transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--cream); }
-.nav-cta {
-  background: var(--gold); color: var(--bg) !important;
-  padding: 9px 20px; border-radius: 2px;
-  font-size: 11px !important; font-weight: 500;
-  letter-spacing: 0.06em; text-transform: uppercase !important;
-  transition: background 0.2s !important;
-}
-.nav-cta:hover { background: var(--gold-l) !important; }
-.hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  cursor: pointer; background: none; border: none; padding: 4px;
-}
-.hamburger span { display: block; width: 22px; height: 1.5px; background: var(--muted); }
-.mob-menu { display: none; flex-direction: column; background: var(--bg2); border-bottom: 1px solid var(--border2); }
-.mob-menu a {
-  padding: 14px 48px; font-size: 13px; color: var(--muted);
-  text-decoration: none; border-bottom: 1px solid var(--border2);
-}
-.mob-menu a:hover { color: var(--cream); }
-.mob-menu.open { display: flex; }
-
-/* ── HERO ── */
-.hero {
-  background: var(--bg2);
-  padding: 96px 48px 104px;
-  min-height: 88vh;
-  display: flex; align-items: center;
-  border-bottom: 1px solid var(--border2);
-}
-.hero-inner {
-  max-width: 980px; margin: 0 auto; width: 100%;
-  display: grid; grid-template-columns: 1fr 340px; gap: 80px; align-items: center;
-}
-.hero-tag {
-  font-size: 10px; letter-spacing: 0.16em; color: var(--gold);
-  text-transform: uppercase; font-weight: 500; margin-bottom: 28px;
-  display: flex; align-items: center; gap: 10px;
-}
-.hero-tag::after { content: ''; flex: 0 0 32px; height: 1px; background: var(--gold-d); }
-.hero h1 {
-  font-family: 'Lora', serif; font-size: 54px; line-height: 1.1;
-  color: var(--cream); font-weight: 400; margin-bottom: 8px;
-}
-.hero h1 em { font-style: italic; color: var(--gold); }
-.hero-quote {
-  font-family: 'Lora', serif; font-size: 15px; color: var(--muted);
-  font-style: italic; margin: 24px 0 40px; line-height: 1.7;
-  padding-left: 16px; border-left: 1px solid var(--gold-d);
-}
-.hero-quote cite {
-  display: block; font-size: 11px; font-style: normal;
-  margin-top: 8px; color: var(--gold-d); letter-spacing: 0.06em; text-transform: uppercase;
-}
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-.btn-gold {
-  background: var(--gold); color: var(--bg);
-  padding: 13px 28px; font-size: 13px; font-weight: 500;
-  border-radius: 2px; text-decoration: none; border: none; cursor: pointer;
-  font-family: 'Inter', sans-serif; letter-spacing: 0.04em;
-  transition: background 0.2s; display: inline-block;
-}
-.btn-gold:hover { background: var(--gold-l); }
-.btn-ghost {
-  background: transparent; color: var(--cream);
-  padding: 12px 28px; font-size: 13px; letter-spacing: 0.04em;
-  border: 1px solid var(--border); border-radius: 2px;
-  text-decoration: none; display: inline-block; transition: border-color 0.2s;
-}
-.btn-ghost:hover { border-color: var(--gold); color: var(--gold-l); }
-
-/* INFO ASIDE */
-.info-aside {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 2px; overflow: hidden;
-}
-.info-row {
-  padding: 16px 20px; border-bottom: 1px solid var(--border2);
-  display: flex; gap: 14px; align-items: flex-start;
-}
-.info-row:last-child { border-bottom: none; }
-.info-icon { font-size: 15px; flex-shrink: 0; margin-top: 2px; opacity: 0.8; }
-.info-lbl { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 3px; font-weight: 500; }
-.info-val { font-size: 13px; color: var(--cream); line-height: 1.5; }
-.info-val a { color: var(--gold); text-decoration: none; }
-.info-val small { font-size: 11px; color: var(--muted); }
-
-/* ── STRIP ── */
-.strip {
-  background: var(--bg3);
-  border-top: 1px solid var(--border2);
-  border-bottom: 1px solid var(--border2);
-  padding: 16px 48px;
-}
-.strip-inner {
-  max-width: 980px; margin: 0 auto;
-  display: flex; justify-content: center; align-items: center;
-  gap: 24px; flex-wrap: wrap;
-}
-.strip-item { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.strip-dot { color: var(--gold-d); font-size: 10px; }
-
-/* ── SECTIONS ── */
-.section { padding: 72px 48px; }
-.section-alt { background: var(--bg2); }
-.section-card { background: var(--bg3); }
-.section-inner { max-width: 980px; margin: 0 auto; }
-.sec-tag {
-  font-size: 10px; letter-spacing: 0.14em; color: var(--gold);
-  text-transform: uppercase; font-weight: 500; margin-bottom: 10px;
-}
-.sec-h2 {
-  font-family: 'Lora', serif; font-size: 34px; font-weight: 400;
-  color: var(--cream); margin-bottom: 40px; line-height: 1.2;
-}
-.sec-line {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 40px;
-}
-.sec-line .sec-h2 { margin-bottom: 0; }
-.sec-line::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
-
-/* ── MENU TABS ── */
-.mtabs { display: flex; border-bottom: 1px solid var(--border2); margin-bottom: 40px; }
-.mtab {
-  padding: 10px 24px; font-size: 11px; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--muted); cursor: pointer;
-  border-bottom: 1px solid transparent; margin-bottom: -1px;
-  background: none; border-top: none; border-left: none; border-right: none;
-  font-family: 'Inter', sans-serif; transition: color 0.15s;
-}
-.mtab:hover { color: var(--cream); }
-.mtab.active { color: var(--gold); border-bottom-color: var(--gold); font-weight: 500; }
-.mpanel { display: none; }
-.mpanel.active { display: block; }
-
-/* ── DISH LIST ── */
-.dish-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border2); border: 1px solid var(--border2); }
-.dish { background: var(--card); padding: 20px 24px; transition: background 0.15s; }
-.dish:hover { background: var(--bg3); }
-.dish-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 5px; }
-.dish-name { font-size: 14px; font-weight: 500; color: var(--cream); }
-.dish-dots { flex: 1; border-bottom: 1px dotted rgba(201,168,76,0.2); margin: 0 8px; min-width: 20px; }
-.dish-price { font-size: 14px; color: var(--gold); font-weight: 400; white-space: nowrap; font-family: 'Lora', serif; }
-.dish-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
-.dish-badge { display: inline-block; font-size: 9px; padding: 2px 7px; font-weight: 500; margin-top: 7px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 1px; }
-.b-hot { background: rgba(180,50,30,0.25); color: #F09060; border: 1px solid rgba(180,50,30,0.3); }
-.b-fav { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid var(--border); }
-.b-veg { background: rgba(40,120,60,0.2); color: #70C080; border: 1px solid rgba(40,120,60,0.3); }
-
-/* ── KOMBO ── */
-.kombo-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border2); border: 1px solid var(--border2); }
-.kombo-card { background: var(--card); padding: 28px 24px; }
-.kombo-card.featured { background: var(--bg3); border-top: 2px solid var(--gold); }
-.kombo-lbl { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 12px; }
-.kombo-title { font-family: 'Lora', serif; font-size: 20px; font-weight: 400; color: var(--cream); margin-bottom: 4px; }
-.kombo-price { font-family: 'Lora', serif; font-size: 28px; font-weight: 300; color: var(--gold); margin-bottom: 14px; }
-.kombo-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
-
-/* ── SELSKAPER ── */
-.selskap-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-.selskap-intro p { font-size: 15px; color: var(--muted); line-height: 1.85; margin-bottom: 16px; }
-.call-box {
-  background: var(--card); border: 1px solid var(--border);
-  padding: 24px; margin-top: 12px;
-}
-.call-label { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-.call-number { font-family: 'Lora', serif; font-size: 26px; color: var(--gold); text-decoration: none; font-style: italic; }
-.call-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
-.selskap-list { display: flex; flex-direction: column; border: 1px solid var(--border2); background: var(--card); }
-.selskap-item { padding: 18px 20px; border-bottom: 1px solid var(--border2); display: flex; gap: 16px; align-items: flex-start; }
-.selskap-item:last-child { border-bottom: none; }
-.selskap-item .si-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
-.selskap-item h3 { font-size: 14px; font-weight: 500; color: var(--cream); margin-bottom: 3px; }
-.selskap-item p { font-size: 12px; color: var(--muted); line-height: 1.55; }
-
-/* ── BOOKING ── */
-.booking-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-.booking-info-txt { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 28px; }
-.b-info-row { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
-.b-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-d); flex-shrink: 0; margin-top: 8px; }
-.b-lbl { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
-.b-val { font-size: 14px; color: var(--cream); }
-.b-val a { color: var(--cream); text-decoration: none; }
-.b-val a:hover { color: var(--gold); }
-.form-box { background: var(--card); border: 1px solid var(--border); padding: 32px; }
-.form-box h3 { font-family: 'Lora', serif; font-size: 20px; font-weight: 400; color: var(--cream); margin-bottom: 24px; }
-.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-.fg { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-.fg label { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-.fg input, .fg select, .fg textarea {
-  border: 1px solid var(--border2);
-  padding: 11px 14px; font-size: 13px;
-  font-family: 'Inter', sans-serif;
-  background: var(--bg2); color: var(--cream);
-  outline: none; border-radius: 2px; width: 100%;
-  transition: border-color 0.2s;
-}
-.fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--gold); }
-.fg select option { background: var(--bg2); }
-.fg textarea { resize: vertical; min-height: 72px; }
-.submit-btn {
-  width: 100%; background: var(--gold); color: var(--bg);
-  border: none; padding: 14px; font-size: 13px; font-weight: 500;
-  cursor: pointer; font-family: 'Inter', sans-serif;
-  border-radius: 2px; letter-spacing: 0.06em; text-transform: uppercase;
-  transition: background 0.2s; margin-top: 4px;
-}
-.submit-btn:hover { background: var(--gold-l); }
-
-/* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 32px; right: 32px;
-  background: var(--card); color: var(--cream);
-  padding: 14px 20px; border-radius: 2px; font-size: 13px;
-  border-left: 2px solid var(--gold);
-  transform: translateY(80px); opacity: 0; transition: 0.3s;
-  z-index: 999; max-width: 300px; line-height: 1.5;
-}
-.toast.visible { transform: translateY(0); opacity: 1; }
-
-/* ── FOOTER ── */
-.footer { background: #110D05; border-top: 1px solid var(--border2); padding: 56px 48px 32px; }
-.footer-inner { max-width: 980px; margin: 0 auto; }
-.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-.footer-logo { font-family: 'Lora', serif; font-size: 20px; color: var(--gold-l); font-style: italic; margin-bottom: 10px; }
-.footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
-.footer-fb { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); text-decoration: none; border: 1px solid var(--border2); padding: 7px 14px; border-radius: 2px; transition: all 0.2s; letter-spacing: 0.04em; }
-.footer-fb:hover { color: var(--gold); border-color: var(--border); }
-.footer-col h4 { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 16px; font-weight: 500; }
-.footer-col a, .footer-col p { display: block; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 9px; transition: color 0.2s; }
-.footer-col a:hover { color: var(--cream); }
-.footer-bottom { border-top: 1px solid var(--border2); padding-top: 24px; display: flex; justify-content: space-between; font-size: 11px; color: var(--gold-d); letter-spacing: 0.04em; }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 820px) {
-  .site-nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  .hamburger { display: flex; }
-  .mob-menu a { padding: 14px 20px; }
-  .hero { padding: 64px 20px 72px; min-height: auto; }
-  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-  .hero h1 { font-size: 40px; }
-  .strip { padding: 12px 20px; }
-  .strip-inner { gap: 14px; }
-  .section { padding: 48px 20px; }
-  .dish-grid { grid-template-columns: 1fr; }
-  .kombo-grid, .selskap-layout, .booking-layout, .frow { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; gap: 6px; }
-}
-</style>
+</script>
 </head>
 <body>
 
 <nav class="site-nav">
-  <a href="#" class="site-logo">Fjellhamar Bistro</a>
+  <a href="#" class="site-logo">Fjellhamar <span class="dot">•</span> Bistro</a>
   <div class="nav-links">
     <a href="#meny">Meny</a>
-    <a href="#kombinasjon">Kombo</a>
+    <a href="#levering">Levering</a>
     <a href="#selskaper">Selskaper</a>
+    <a href="#apningstider">Åpningstider</a>
     <a href="#bestill" class="nav-cta">Bestill bord</a>
   </div>
-  <button class="hamburger" aria-label="Åpne meny">
+  <button class="hamburger" aria-label="Åpne meny" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mob-menu" id="mobMenu">
   <a href="#meny">Meny</a>
-  <a href="#kombinasjon">Kombinasjonsmeny</a>
+  <a href="#levering">Levering</a>
   <a href="#selskaper">Selskaper</a>
+  <a href="#apningstider">Åpningstider</a>
   <a href="#bestill">Bestill bord</a>
 </div>
 
 <section class="hero">
   <div class="hero-inner">
     <div>
-      <div class="hero-tag">Asiatisk mat · Fjellhamar</div>
+      <div class="hero-tag">Kinesisk &amp; asiatisk mat · Fjellhamar</div>
       <h1>God mat.<br><em>Nabolagets</em><br>bistro.</h1>
-      <div class="hero-quote">
-        «Hyggelig nabolagsbistro med god mat og hyggelig betjening.»
-        <cite>— Google-anmeldelse &nbsp;·&nbsp; 5 av 5 stjerner</cite>
-      </div>
+      <p class="hero-lede">Fjellhamar Bistro serverer kinesisk og asiatisk mat i hyggelige omgivelser — til hverdags, til fest og som takeaway. Familiedrevet siden 2020.</p>
       <div class="hero-btns">
         <a href="#bestill" class="btn-gold">Bestill bord</a>
         <a href="#meny" class="btn-ghost">Se menyen</a>
@@ -336,11 +74,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
       </div>
     </div>
     <div class="info-aside">
+      <div class="info-aside-status" id="open-status" data-hours-table="hours-main"></div>
       <div class="info-row">
         <span class="info-icon">🕑</span>
         <div>
           <div class="info-lbl">Åpningstider</div>
-          <div class="info-val">Daglig fra kl. 14:00<br><small>(stengt noen sommeruker)</small></div>
+          <div class="info-val">Daglig 14:00–23:30</div>
         </div>
       </div>
       <div class="info-row">
@@ -358,10 +97,10 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">⭐</span>
+        <span class="info-icon">🛵</span>
         <div>
-          <div class="info-lbl">Google-vurdering</div>
-          <div class="info-val">4.1 · Rullestolvennlig · Uteservering</div>
+          <div class="info-lbl">Levering</div>
+          <div class="info-val">Wolt &amp; Foodora</div>
         </div>
       </div>
     </div>
@@ -376,9 +115,35 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
     <span class="strip-dot">·</span>
     <span class="strip-item">Takeaway tilgjengelig</span>
     <span class="strip-dot">·</span>
-    <span class="strip-item">Godkjent Mattilsynet 2025</span>
+    <span class="strip-item">Levering via Wolt/Foodora</span>
   </div>
 </div>
+
+<section class="section" id="levering">
+  <div class="section-inner">
+    <div class="sec-tag">Hjemlevering</div>
+    <div class="sec-line"><div class="sec-h2">Bestill maten hjem</div></div>
+    <p class="sec-intro">Vi jobber med å komme på plass hos leveringstjenestene under — trykk deg gjerne innom for å se om vi er tilgjengelige i ditt nabolag ennå, eller bestill bord/takeaway direkte hos oss på telefon.</p>
+    <div class="delivery-grid">
+      <a href="https://wolt.com/nb/nor/lillestrom" target="_blank" rel="noopener" class="delivery-card">
+        <div class="delivery-badge wolt">W</div>
+        <div>
+          <div class="delivery-title">Wolt</div>
+          <div class="delivery-desc">Se om Fjellhamar Bistro leverer til deg</div>
+        </div>
+        <span class="delivery-arrow">→</span>
+      </a>
+      <a href="https://www.foodora.no/" target="_blank" rel="noopener" class="delivery-card">
+        <div class="delivery-badge foodora">F</div>
+        <div>
+          <div class="delivery-title">Foodora</div>
+          <div class="delivery-desc">Se om Fjellhamar Bistro leverer til deg</div>
+        </div>
+        <span class="delivery-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <section class="section section-alt" id="meny">
   <div class="section-inner">
@@ -422,6 +187,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
         <div class="dish"><div class="dish-row"><span class="dish-name">Grønn te / Jasmin</span><span class="dish-dots"></span><span class="dish-price">39,-</span></div><div class="dish-desc">Tradisjonell te med gratis påfyll hele kvelden.</div><span class="dish-badge b-veg">Varm drikke</span></div>
       </div>
     </div>
+    <p class="menu-note">Priser og retter kan variere — spør betjeningen for oppdatert oversikt.</p>
   </div>
 </section>
 
@@ -447,7 +213,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
         <div class="kombo-desc">Biffvårrulle, wonton og kylling Chopsuey med drikke. Husets signaturkombo.</div>
       </div>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:16px">Priser og innhold kan variere — spør betjeningen for oppdatert oversikt.</p>
+    <p class="menu-note">Priser og innhold kan variere — spør betjeningen for oppdatert oversikt.</p>
   </div>
 </section>
 
@@ -457,7 +223,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
     <div class="sec-line"><div class="sec-h2">Lei lokalet til din fest</div></div>
     <div class="selskap-layout">
       <div class="selskap-intro">
-        <p>Fjellhamar Bistro er et populært sted for private selskaper. Vi leier ut lokalet til bursdager, konfirmasjoner, dåpsfester og firmamiddager — og arrangerer høstfester med livemusikk som alltid holder fullt.</p>
+        <p>Fjellhamar Bistro er et populært sted for private selskaper. Vi leier ut lokalet til bursdager, konfirmasjoner, dåpsfester og firmamiddager — og arrangerer temakvelder med livemusikk.</p>
         <p>Vi setter opp en skreddersydd meny og sørger for at gjestene dine har det hyggelig fra start til slutt.</p>
         <div class="call-box">
           <div class="call-label">Ring og avtal selskap</div>
@@ -468,57 +234,79 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
       <div class="selskap-list">
         <div class="selskap-item"><span class="si-icon">🎂</span><div><h3>Bursdag og jubileum</h3><p>Vi pynter og setter opp til feiringen. Tilpasset meny etter ønske.</p></div></div>
         <div class="selskap-item"><span class="si-icon">🙏</span><div><h3>Konfirmasjon og dåp</h3><p>Hyggelig og romslig lokale for hele familien.</p></div></div>
-        <div class="selskap-item"><span class="si-icon">🎵</span><div><h3>Høstfest med livemusikk</h3><p>Temakvelder med live musikk. Holder alltid fullt — meld deg på tidlig.</p></div></div>
+        <div class="selskap-item"><span class="si-icon">🎵</span><div><h3>Temakveld med livemusikk</h3><p>Meld deg på tidlig — disse kveldene fylles raskt opp.</p></div></div>
         <div class="selskap-item"><span class="si-icon">💼</span><div><h3>Firmamiddag</h3><p>Avslappet og hyggelig ramme for bedriftsarrangementer.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="bestill">
+<section class="section" id="apningstider">
+  <div class="section-inner">
+    <div class="sec-tag">Åpningstider</div>
+    <div class="sec-line"><div class="sec-h2">Når vi har åpent</div></div>
+    <div style="max-width:420px">
+      <table class="hours-table" id="hours-main">
+        <tr data-day="1"><td>Mandag</td><td>14:00–23:30</td></tr>
+        <tr data-day="2"><td>Tirsdag</td><td>14:00–23:30</td></tr>
+        <tr data-day="3"><td>Onsdag</td><td>14:00–23:30</td></tr>
+        <tr data-day="4"><td>Torsdag</td><td>14:00–23:30</td></tr>
+        <tr data-day="5"><td>Fredag</td><td>14:00–23:30</td></tr>
+        <tr data-day="6"><td>Lørdag</td><td>14:00–23:30</td></tr>
+        <tr data-day="0"><td>Søndag</td><td>14:00–23:30</td></tr>
+      </table>
+      <p class="fine-print" style="margin-top:16px">Kan avvike på helligdager og i noen sommeruker — følg oss på Facebook for oppdateringer.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="bestill">
   <div class="section-inner">
     <div class="sec-tag">Reservasjon</div>
     <div class="sec-line"><div class="sec-h2">Bestill bord</div></div>
     <div class="booking-layout">
       <div>
-        <p class="booking-info-txt">Fyll inn skjemaet — vi bekrefter på SMS. Foretrekker du å ringe? Det går like bra på 67 90 22 09.</p>
+        <p class="booking-info-txt">Fyll inn skjemaet — vi bekrefter på telefon eller SMS. Foretrekker du å ringe? Det går like bra på 67 90 22 09.</p>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Adresse</div><div class="b-val">Fjellhamarveien 56 D, 1472 Fjellhamar</div></div></div>
-        <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Åpningstider</div><div class="b-val">Daglig fra kl. 14:00<br><span style="font-size:12px;color:var(--muted)">Stengt noen sommeruker — følg oss på Facebook</span></div></div></div>
+        <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Åpningstider</div><div class="b-val">Daglig 14:00–23:30<br><span style="font-size:12px;color:var(--muted)">Følg oss på Facebook for avvik</span></div></div></div>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Telefon</div><div class="b-val"><a href="tel:6790220">67 90 22 09</a></div></div></div>
         <div class="b-info-row"><div class="b-dot"></div><div><div class="b-lbl">Selskaper</div><div class="b-val"><a href="tel:90171076" style="color:var(--gold)">90 17 10 76</a></div></div></div>
         <div style="margin-top:24px">
-          <a href="https://maps.google.com/?q=Fjellhamarveien+56+D+Fjellhamar" target="_blank" class="btn-ghost" style="font-size:12px;padding:10px 20px">Åpne i Google Maps →</a>
+          <a href="https://maps.google.com/?q=Fjellhamarveien+56+D+Fjellhamar" target="_blank" rel="noopener" class="btn-ghost" style="font-size:12px;padding:10px 20px">Åpne i Google Maps →</a>
         </div>
       </div>
       <div class="form-box">
         <h3>Reserver bord</h3>
-        <div class="frow">
-          <div class="fg"><label for="f-dato">Dato</label><input type="date" id="f-dato" name="dato"></div>
-          <div class="fg"><label for="f-tid">Tidspunkt</label>
-            <select id="f-tid" name="tid">
-              <option value="">Velg tid</option>
-              <option>14:00</option><option>15:00</option><option>16:00</option>
-              <option>17:00</option><option>18:00</option><option>19:00</option>
-              <option>20:00</option><option>21:00</option>
-            </select>
+        <form id="booking-form" novalidate>
+          <div class="frow">
+            <div class="fg"><label for="bf-date">Dato</label><input type="text" id="bf-date" name="booking_date" placeholder="Velg dato" autocomplete="off" required></div>
+            <div class="fg"><label for="bf-time">Tidspunkt</label>
+              <select id="bf-time" name="booking_time" required>
+                <option value="">Velg tid</option>
+                <option>14:00</option><option>15:00</option><option>16:00</option>
+                <option>17:00</option><option>18:00</option><option>19:00</option>
+                <option>20:00</option><option>21:00</option><option>22:00</option>
+              </select>
+            </div>
           </div>
-        </div>
-        <div class="frow">
-          <div class="fg"><label for="f-gj">Antall gjester</label>
-            <select id="f-gj" name="gjester">
-              <option value="">Velg</option>
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5–6</option><option>7–8</option><option>9+</option>
-            </select>
+          <div class="frow">
+            <div class="fg"><label for="bf-guests">Antall gjester</label>
+              <select id="bf-guests" name="guests" required>
+                <option value="">Velg</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                <option value="6">5–6</option><option value="8">7–8</option><option value="10">9+</option>
+              </select>
+            </div>
+            <div class="fg"><label for="bf-name">Navn</label><input type="text" id="bf-name" name="name" placeholder="Fullt navn" required></div>
           </div>
-          <div class="fg"><label for="f-navn">Navn</label><input type="text" id="f-navn" name="navn" placeholder="Fullt navn"></div>
-        </div>
-        <div class="frow">
-          <div class="fg"><label for="f-tlf">Telefon</label><input type="tel" id="f-tlf" name="telefon" placeholder="+47 xxx xx xxx"></div>
-          <div class="fg"><label for="f-epost">E-post (valgfritt)</label><input type="email" id="f-epost" name="epost" placeholder="din@epost.no"></div>
-        </div>
-        <div class="fg"><label for="f-kom">Kommentar</label><textarea id="f-kom" name="kommentar" placeholder="Allergier, anledning, barneseter…"></textarea></div>
-        <button type="button" class="submit-btn">Bestill bord — bekreftelse på SMS</button>
+          <div class="frow">
+            <div class="fg"><label for="bf-phone">Telefon</label><input type="tel" id="bf-phone" name="phone" placeholder="+47 xxx xx xxx" required></div>
+            <div class="fg"><label for="bf-email">E-post (valgfritt)</label><input type="email" id="bf-email" name="email" placeholder="din@epost.no"></div>
+          </div>
+          <div class="fg"><label for="bf-message">Kommentar</label><textarea id="bf-message" name="message" placeholder="Allergier, anledning, barneseter…"></textarea></div>
+          <button type="submit" class="submit-btn" id="bf-submit">Bestill bord</button>
+          <p class="form-status" id="bf-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </div>
@@ -529,8 +317,8 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
     <div class="footer-grid">
       <div>
         <div class="footer-logo">Fjellhamar Bistro</div>
-        <div class="footer-tagline">Hyggelig nabolagsrestaurant med god asiatisk mat, selskaper og takeaway. Daglig åpent fra kl. 14:00.</div>
-        <a href="https://www.facebook.com/p/Fjellhamar-Bistro-100064511372342/" target="_blank" class="footer-fb">Følg oss på Facebook →</a>
+        <div class="footer-tagline">Hyggelig nabolagsrestaurant med kinesisk og asiatisk mat, selskaper og takeaway. Daglig åpent 14:00–23:30.</div>
+        <a href="https://www.facebook.com/p/Fjellhamar-Bistro-100064511372342/" target="_blank" rel="noopener" class="footer-fb">Følg oss på Facebook →</a>
       </div>
       <div class="footer-col">
         <h4>Meny</h4>
@@ -545,88 +333,18 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--cre
         <p>1472 Fjellhamar</p>
         <a href="tel:6790220">67 90 22 09</a>
         <a href="tel:90171076">90 17 10 76 (selskaper)</a>
-        <a href="https://maps.google.com/?q=Fjellhamarveien+56+D+Fjellhamar" target="_blank">Kart og veibeskrivelse →</a>
+        <a href="https://maps.google.com/?q=Fjellhamarveien+56+D+Fjellhamar" target="_blank" rel="noopener">Kart og veibeskrivelse →</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 Fjellhamar Bistro</span>
+      <span>© <span id="year"></span> Fjellhamar Bistro</span>
       <span>Fjellhamarveien 56 D &nbsp;·&nbsp; 1472 Fjellhamar</span>
     </div>
   </div>
 </footer>
 
-<div class="toast" id="toast">Takk — vi bekrefter bordreservasjonen din på SMS snart.</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-
-  // Min date
-  var datoEl = document.getElementById('f-dato');
-  if (datoEl) datoEl.min = new Date().toISOString().split('T')[0];
-
-  // Hamburger
-  var burger = document.querySelector('.hamburger');
-  if (burger) {
-    burger.addEventListener('click', function() {
-      document.getElementById('mobMenu').classList.toggle('open');
-    });
-  }
-
-  // Menu tabs
-  document.querySelectorAll('.mtab').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var name = this.getAttribute('data-tab');
-      document.querySelectorAll('.mtab').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelectorAll('.mpanel').forEach(function(p) { p.classList.remove('active'); });
-      this.classList.add('active');
-      document.getElementById('panel-' + name).classList.add('active');
-    });
-  });
-
-  // Footer tab switcher links
-  document.querySelectorAll('a[data-switchtab]').forEach(function(link) {
-    link.addEventListener('click', function() {
-      var name = this.getAttribute('data-switchtab');
-      document.querySelectorAll('.mtab').forEach(function(b) { b.classList.remove('active'); });
-      document.querySelectorAll('.mpanel').forEach(function(p) { p.classList.remove('active'); });
-      var tab = document.querySelector('.mtab[data-tab="' + name + '"]');
-      var panel = document.getElementById('panel-' + name);
-      if (tab) tab.classList.add('active');
-      if (panel) panel.classList.add('active');
-    });
-  });
-
-  // Submit booking
-  var submitBtn = document.querySelector('.submit-btn');
-  if (submitBtn) {
-    submitBtn.addEventListener('click', function() {
-      var navn = document.getElementById('f-navn').value.trim();
-      var tlf  = document.getElementById('f-tlf').value.trim();
-      var dato = document.getElementById('f-dato').value;
-      var tid  = document.getElementById('f-tid').value;
-      var gj   = document.getElementById('f-gj').value;
-      if (!navn || !tlf || !dato || !tid || !gj) {
-        alert('Fyll ut alle obligatoriske felt for å bestille bord.');
-        return;
-      }
-      var toast = document.getElementById('toast');
-      toast.classList.add('visible');
-      setTimeout(function() { toast.classList.remove('visible'); }, 5000);
-      ['f-navn','f-tlf','f-epost','f-kom'].forEach(function(id) {
-        document.getElementById(id).value = '';
-      });
-      ['f-dato','f-tid','f-gj'].forEach(function(id) {
-        document.getElementById(id).value = '';
-      });
-    });
-  }
-
-  // Close mobile nav on scroll
-  window.addEventListener('scroll', function() {
-    document.getElementById('mobMenu').classList.remove('open');
-  });
-
-});
-</script>
+<script src="js/supabase-config.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/booking.js" defer></script>
 </body>
 </html>
