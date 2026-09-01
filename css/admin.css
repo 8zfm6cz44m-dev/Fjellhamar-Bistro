@@ -67,13 +67,40 @@
 .admin-table tbody tr:last-child td { border-bottom: none; }
 
 .status-select {
-  background: var(--bg2); color: var(--cream); border: 1px solid var(--border2);
-  border-radius: var(--radius); padding: 6px 9px; font-size: 12px; font-family: 'Inter', sans-serif;
+  border-radius: var(--radius); padding: 6px 9px; font-size: 12px;
+  font-family: 'Inter', sans-serif; font-weight: 600; border: 1px solid var(--border2);
+  background: var(--bg2); color: var(--cream);
+  transition: background-color .15s, border-color .15s, color .15s;
 }
-tr[data-status="ny"] { border-left: 3px solid var(--gold); }
-tr[data-status="bekreftet"] td:first-child { color: var(--ok); }
-tr[data-status="avvist"] { opacity: 0.55; }
-tr[data-status="fullført"] { opacity: 0.7; }
+
+/* ---------- Statusfarger på bookinger ----------
+   border-left må settes på cellen, ikke <tr>, siden border-collapse:
+   collapse ignorerer border på selve tr-elementet. */
+tr[data-status="ny"] { background: rgba(168,74,38,0.06); }
+tr[data-status="ny"] td:first-child { border-left: 3px solid var(--gold); }
+tr[data-status="bekreftet"] { background: rgba(63,125,69,0.08); }
+tr[data-status="bekreftet"] td:first-child { border-left: 3px solid var(--ok); color: var(--ok); }
+tr[data-status="avbestilt"] { background: rgba(178,58,36,0.08); opacity: 0.75; }
+tr[data-status="avbestilt"] td:first-child { border-left: 3px solid var(--err); }
+tr[data-status="ikke_møtt"] { background: rgba(110,90,140,0.08); opacity: 0.75; }
+tr[data-status="ikke_møtt"] td:first-child { border-left: 3px solid #6E5A8C; }
+tr[data-status="fullført"] { background: rgba(124,104,80,0.06); opacity: 0.65; }
+tr[data-status="fullført"] td:first-child { border-left: 3px solid var(--muted); }
+
+.status-select[data-status="ny"] { background: rgba(168,74,38,0.13); border-color: var(--gold); color: var(--gold-d); }
+.status-select[data-status="bekreftet"] { background: rgba(63,125,69,0.13); border-color: var(--ok); color: var(--ok); }
+.status-select[data-status="avbestilt"] { background: rgba(178,58,36,0.13); border-color: var(--err); color: var(--err); }
+.status-select[data-status="ikke_møtt"] { background: rgba(110,90,140,0.13); border-color: #6E5A8C; color: #6E5A8C; }
+.status-select[data-status="fullført"] { background: rgba(124,104,80,0.13); border-color: var(--muted); color: var(--muted); }
+
+.admin-note {
+  width: 100%; min-width: 160px; resize: vertical;
+  border: 1px solid var(--border2); border-radius: var(--radius);
+  padding: 6px 9px; font-size: 12px; font-family: 'Inter', sans-serif;
+  background: var(--bg2); color: var(--cream); line-height: 1.4;
+}
+.admin-note:focus { border-color: var(--gold); outline: none; }
+.admin-note.is-saved { background: rgba(63,125,69,0.16); border-color: var(--ok); transition: background-color .2s, border-color .2s; }
 
 .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
 .form-row label { font-size: 10px; color: var(--gold-d); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }

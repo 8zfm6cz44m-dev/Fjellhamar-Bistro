@@ -62,12 +62,37 @@ document.addEventListener('DOMContentLoaded', () => {
   logoutBtn.addEventListener('click', () => sb.auth.signOut());
 
   // ---------- Bordbestillinger ----------
+  // Statusflyt (samme mønster/mal som Lørenskog Dyrebutikk sin
+  // bookingadmin — samme statusverdier lagres i databasen på begge
+  // steder, kun visningsteksten for "fullført" er tilpasset denne
+  // virksomheten):
+  //   ny        → kommer inn automatisk, krever manuell håndtering
+  //   bekreftet → dere har ringt/bekreftet bordet med gjesten
+  //   avbestilt → gjesten har avbestilt (skriv gjerne årsak i notatet)
+  //   ikke møtt → gjesten dukket ikke opp (og avbestilte heller ikke)
+  //   ankommet  → gjesten har ankommet — arkiveres automatisk
+  // avbestilt / ikke møtt / ankommet arkiveres (skjules fra hoved-
+  // listen) med mindre "Vis arkiv" er krysset av.
   const bookingsTbody = document.getElementById('bookings-tbody');
   const bookingsEmpty = document.getElementById('bookings-empty');
   const bookingsArchivedNote = document.getElementById('bookings-archived-note');
   const showArchivedCheckbox = document.getElementById('show-archived');
-  const STATUS_OPTIONS = ['ny', 'bekreftet', 'avvist', 'fullført'];
-  const ARCHIVED_STATUSES = ['fullført', 'avvist'];
+  const STATUS_LABELS = {
+    ny: 'Ny',
+    bekreftet: 'Bekreftet',
+    avbestilt: 'Avbestilt',
+    ikke_møtt: 'Ikke møtt',
+    fullført: 'Ankommet',
+  };
+  const STATUS_OPTIONS = Object.keys(STATUS_LABELS);
+  const ARCHIVED_STATUSES = ['avbestilt', 'ikke_møtt', 'fullført'];
+
+  // Kort visuell bekreftelse ("grønn glimt") når et fritekstfelt er
+  // lagret til Supabase — brukes av "Internt notat".
+  function flashSaved(el) {
+    el.classList.add('is-saved');
+    setTimeout(() => el.classList.remove('is-saved'), 900);
+  }
 
   async function loadBookings() {
     const { data, error } = await sb.from('restaurant_bookings').select('*').order('created_at', { ascending: false });
@@ -80,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     bookingsTbody.innerHTML = '';
     bookingsEmpty.hidden = data.length > 0;
     bookingsArchivedNote.hidden = showArchived || archivedCount === 0;
-    bookingsArchivedNote.textContent = `${archivedCount} fullført${archivedCount === 1 ? '' : 'e'}/avviste booking${archivedCount === 1 ? '' : 'er'} er arkivert og skjult — kryss av "Vis arkiv" for å se dem.`;
+    bookingsArchivedNote.textContent = `${archivedCount} avbestilt/ikke møtt/ankommet booking${archivedCount === 1 ? '' : 'er'} er arkivert og skjult — kryss av «Vis arkiv» for å se dem.`;
 
     visible.forEach(b => {
       const tr = document.createElement('tr');
@@ -92,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
       STATUS_OPTIONS.forEach(s => {
         const opt = document.createElement('option');
         opt.value = s;
-        opt.textContent = s;
+        opt.textContent = STATUS_LABELS[s];
         if (s === b.status) opt.selected = true;
         statusSelect.appendChild(opt);
       });
@@ -117,6 +142,23 @@ document.addEventListener('DOMContentLoaded', () => {
         td.textContent = text;
         tr.appendChild(td);
       });
+
+      // Internt notat — fritekst kun for ansatte (f.eks. årsak til
+      // avbestilling, spesielle ønsker). Lagres når feltet forlates.
+      const noteTd = document.createElement('td');
+      const noteInput = document.createElement('textarea');
+      noteInput.className = 'admin-note';
+      noteInput.rows = 1;
+      noteInput.placeholder = 'Notat …';
+      noteInput.value = b.admin_comment || '';
+      noteInput.addEventListener('blur', async () => {
+        const value = noteInput.value.trim();
+        if (value === (b.admin_comment || '')) return;
+        const { error: saveError } = await sb.from('restaurant_bookings').update({ admin_comment: value || null }).eq('id', b.id);
+        if (!saveError) { b.admin_comment = value; flashSaved(noteInput); }
+      });
+      noteTd.appendChild(noteInput);
+      tr.appendChild(noteTd);
 
       const statusTd = document.createElement('td');
       statusTd.appendChild(statusSelect);
