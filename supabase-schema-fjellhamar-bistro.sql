@@ -62,9 +62,8 @@ create policy "Kun innlogget admin kan slette bordbestillinger"
 
 alter table public.restaurant_bookings add column if not exists admin_comment text;
 
--- Gamle "avvist"-statuser (fra en tidligere versjon) regnes nå som "avbestilt".
-update public.restaurant_bookings set status = 'avbestilt' where status = 'avvist';
-
+-- Fjern den GAMLE statusbegrensningen FØRST — ellers avviser den under-
+-- veis UPDATE-en rett nedenfor (den tillot ikke "avbestilt" ennå).
 do $$
 declare r record;
 begin
@@ -77,6 +76,9 @@ begin
     execute format('alter table public.restaurant_bookings drop constraint %I', r.conname);
   end loop;
 end $$;
+
+-- Gamle "avvist"-statuser (fra en tidligere versjon) regnes nå som "avbestilt".
+update public.restaurant_bookings set status = 'avbestilt' where status = 'avvist';
 
 alter table public.restaurant_bookings
   add constraint restaurant_bookings_status_check
