@@ -83,3 +83,18 @@ update public.restaurant_bookings set status = 'avbestilt' where status = 'avvis
 alter table public.restaurant_bookings
   add constraint restaurant_bookings_status_check
   check (status in ('ny', 'bekreftet', 'avbestilt', 'ikke_møtt', 'fullført'));
+
+
+-- ============================================================
+-- MIGRERING — lagt til 2026-09-03: automatisk bekreftelses-e-post med
+-- avbestillingslenke. "cancel_token" er en tilfeldig, ugjettbar kode
+-- som brukes i lenken gjesten får i e-posten (se avbestill.html og
+-- Edge Function-ene i supabase/functions/). "confirmation_sent_at"
+-- lar admin-panelet vise om/når e-posten faktisk ble sendt.
+-- ============================================================
+
+alter table public.restaurant_bookings
+  add column if not exists cancel_token uuid not null default gen_random_uuid();
+
+alter table public.restaurant_bookings
+  add column if not exists confirmation_sent_at timestamptz;
