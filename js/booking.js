@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
       message: fd.get('message')?.toString().trim() || null,
     };
 
-    if (!payload.name || !payload.phone || !payload.guests || !payload.booking_date || !payload.booking_time) {
-      setStatus('Fyll ut navn, telefon, antall gjester, dato og tidspunkt.', 'is-error');
+    if (!payload.name || !payload.phone || !payload.email || !payload.guests || !payload.booking_date || !payload.booking_time) {
+      setStatus('Fyll ut navn, telefon, e-post, antall gjester, dato og tidspunkt.', 'is-error');
       submitBtn.disabled = false;
       return;
     }
