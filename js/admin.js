@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (noteEl) { noteEl.textContent = 'Sender bekreftelse …'; noteEl.classList.remove('is-error-note'); }
     try {
-      const cancelBaseUrl = `${location.origin}${location.pathname.replace(/admin\.html$/, 'avbestill.html')}`;
+      const cancelBaseUrl = `${location.origin}${location.pathname.replace(/\/[^/]*$/, '/avbestill.html')}`;
       const { data, error } = await sb.functions.invoke('send-confirmation', {
         body: { table: 'restaurant_bookings', id: booking.id, cancelBaseUrl },
       });
